@@ -1,6 +1,8 @@
 import React from 'react'
 import Left from './home/leftpart/Left'
 import Right from './home/Rightpart/Right'
+import Signup from '../components/Signup'
+import Login from '../components/Login';
 
 function App() {
   return (
@@ -8,6 +10,8 @@ function App() {
       <Left/>
       <Right/>
     </div>
+    // <Signup/>
+    // <Login/>
   )
 }
 
