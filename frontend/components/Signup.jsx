@@ -1,8 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useAuth } from "../src/context/AuthProvider";
+import { Link } from "react-router-dom";
 
 export default function Signup() {
+  const[authUser, setAuthUser]=useAuth()
   const {
     register,
     handleSubmit,
@@ -17,7 +20,7 @@ export default function Signup() {
     return value === password || "Passwords don't match";
   };
 
-  const onSubmit = (data) => {
+  const onSubmit =async (data) => {
     const userInfo = {
       fullname: data.fullname,
       email: data.email,
@@ -26,7 +29,7 @@ export default function Signup() {
     };
 
     // Clear previous errors
-    axios
+    await axios
       .post("http://localhost:3000/user/signup", userInfo)
       .then((response) => {
         // console.log(response.data);
@@ -34,6 +37,7 @@ export default function Signup() {
             alert("Signup successful");
         }
         localStorage.setItem("ChatApp",JSON.stringify(response.data));
+        setAuthUser(response.data);
       })
       .catch((error) => {
         if(error.response){
@@ -122,9 +126,9 @@ export default function Signup() {
         <div className="flex justify-between items-center text-sm">
           <p>
             Already have an account?{" "}
-            <a href="#" className="text-green-400 hover:underline">
+            <Link to="/login" className="text-green-400 hover:underline">
               Login
-            </a>
+            </Link>
           </p>
           <button
             type="submit"
