@@ -1,27 +1,37 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import userRoute from "./routes/user.route.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
-const app = express();
+import userRoute from "./routes/user.route.js";
+import messageRoute from "./routes/message.route.js";
+import { app, server } from "./SocketIO/server.js";
+
 dotenv.config();
 
-app.use(express.json());//middleware
-app.use(cors());
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Vite's default port (we’ll change it from 3001)
+    credentials: true, // If you’re using cookies
+  })
+);
 
-const port=process.env.PORT || 4002;
-const URI=process.env.MONGODB_URI;
+const PORT = process.env.PORT || 4001; // Use 3001 from .env, fallback to 4001
+const URI = process.env.MONGODB_URI;
 
-try{
-    mongoose.connect(URI)
-    console.log("Connected to MongoDB")
-}catch(error){
-    console.log(error);
-}
-//route
-app.use("/user",userRoute);
+mongoose
+  .connect(URI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.error("MongoDB connection error:", error));
 
-app.listen(port, () => {
-  console.log(`Server is Running on port ${port}`)
-})
+// Routes
+app.use("/api/user", userRoute);
+app.use("/api/message", messageRoute);
+
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

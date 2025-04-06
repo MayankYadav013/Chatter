@@ -5,7 +5,7 @@ import { useAuth } from "../src/context/AuthProvider";
 import { Link } from "react-router-dom";
 
 export default function Login() {
-  const [authUser,setAuthUser]=useAuth();
+  const [authUser, setAuthUser] = useAuth();
   const {
     register,
     handleSubmit,
@@ -17,7 +17,9 @@ export default function Login() {
   const onSubmit = async (data) => {
     setErrorMessage(""); // Clear previous errors
     try {
-      const response = await axios.post("http://localhost:3000/user/login", data);
+      const response = await axios.post("/api/user/login", data, {
+        withCredentials: true, // ✅ Include cookies in request/response
+      });
       alert("Login successful");
       localStorage.setItem("ChatApp", JSON.stringify(response.data));
       setAuthUser(response.data);
@@ -86,7 +88,10 @@ export default function Login() {
         {/* Submit and Signup Link */}
         <div className="flex justify-between items-center text-sm">
           <p>
-            Don't have an account? <Link to="/signup" className="text-green-400 hover:underline">Sign Up</Link>
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-green-400 hover:underline">
+              Sign Up
+            </Link>
           </p>
           <button
             type="submit"

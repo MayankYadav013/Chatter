@@ -30,7 +30,7 @@ export default function Signup() {
 
     // Clear previous errors
     await axios
-      .post("http://localhost:3000/user/signup", userInfo)
+      .post("/api/user/signup", userInfo)
       .then((response) => {
         // console.log(response.data);
         if(response.data){
