@@ -3,42 +3,35 @@ import Message from "./Message";
 import useGetMessage from "../../context/useGetMessage.js";
 import Loading from "../../components/Loading.jsx";
 import useGetSocketMessage from "../../context/useGetSocketMessage.js";
+
 function Messages() {
   const { loading, messages } = useGetMessage();
-  useGetSocketMessage(); // listing incoming messages
-  console.log(messages);
+  useGetSocketMessage(); // Listen to incoming messages
 
   const lastMsgRef = useRef();
+
   useEffect(() => {
-    setTimeout(() => {
-      if (lastMsgRef.current) {
-        lastMsgRef.current.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    }, 100);
+    if (lastMsgRef.current) {
+      lastMsgRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
+
   return (
-    <div
-      className="flex-1 overflow-y-auto"
-      style={{ minHeight: "calc(92vh - 8vh)" }}
-    >
+    <div className="flex-1 overflow-y-auto px-4 py-2 space-y-2 bg-gray-900 rounded-md">
       {loading ? (
         <Loading />
+      ) : messages.length > 0 ? (
+        messages.map((message, index) => {
+          const isLast = index === messages.length - 1;
+          return (
+            <div key={message._id} ref={isLast ? lastMsgRef : null}>
+              <Message message={message} />
+            </div>
+          );
+        })
       ) : (
-        messages.length > 0 &&
-        messages.map((message) => (
-          <div key={message._id} ref={lastMsgRef}>
-            <Message message={message} />
-          </div>
-        ))
-      )}
-
-      {!loading && messages.length === 0 && (
-        <div>
-          <p className="text-center mt-[20%]">
-            Say! Hi to start the conversation
-          </p>
+        <div className="flex justify-center items-center h-full text-gray-400 text-sm">
+          Say hi 👋 to start the conversation!
         </div>
       )}
     </div>
