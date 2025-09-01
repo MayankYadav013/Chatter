@@ -17,7 +17,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (authUser?.user?._id) {
       // Connect to backend socket server
-      const socketInstance = io("http://localhost:4002", {
+      const socketInstance = io("https://chatter-pce1.onrender.com", {
         query: {
           userId: authUser.user._id,
         },
