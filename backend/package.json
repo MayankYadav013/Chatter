@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "ChatApp ",
+  "description": "Chatter",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -12,7 +12,7 @@
   "keywords": [
     "MERN"
   ],
-  "author": "Akhilesh",
+  "author": "Mayank",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
