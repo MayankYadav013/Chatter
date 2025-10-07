@@ -4,11 +4,16 @@ import useGetAllUsers from "../../context/useGetAllUsers";
 
 function Users() {
   const [allUsers, loading] = useGetAllUsers();
-
+  console.log(allUsers);
   return (
-    <div className="px-4 pt-3">
-      <h1 className="text-white text-lg font-bold mb-2">Messages</h1>
-      <div className="space-y-1 overflow-y-auto" style={{ maxHeight: "calc(84vh - 20vh)" }}>
+    <div>
+      <h1 className="px-8 py-2 text-white font-semibold bg-slate-800 rounded-md">
+        Messages
+      </h1>
+      <div
+        className="py-2 flex-1 overflow-y-auto"
+        style={{ maxHeight: "calc(84vh - 10vh)" }}
+      >
         {allUsers.map((user, index) => (
           <User key={index} user={user} />
         ))}

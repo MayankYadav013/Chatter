@@ -1,38 +1,37 @@
 import React, { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { BiLogOutCircle } from "react-icons/bi";
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-
 function Logout() {
   const [loading, setLoading] = useState(false);
-
   const handleLogout = async () => {
     setLoading(true);
     try {
-      await axios.post("/api/user/logout");
+      const res = await axios.post("/api/user/logout");
       localStorage.removeItem("ChatApp");
       Cookies.remove("jwt");
+      setLoading(false);
       toast.success("Logged out successfully");
       window.location.reload();
     } catch (error) {
-      toast.error("Logout failed");
-      console.error(error);
-    } finally {
-      setLoading(false);
+      console.log("Error in Logout", error);
+      toast.error("Error in logging out");
     }
   };
-
   return (
-    <div className="h-[10vh] border-t border-gray-800 px-4 flex items-center">
-      <button
-        onClick={handleLogout}
-        className="flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-full transition-all duration-300"
-      >
-        <BiLogOutCircle className="text-2xl" />
-        <span>{loading ? "Logging out..." : "Logout"}</span>
-      </button>
-    </div>
+    <>
+      <hr />
+      <div className=" h-[10vh] bg-transparent">
+        <div>
+          <BiLogOutCircle
+            className="text-5xl text-white hover:bg-slate-700 duration-300 cursor-pointer rounded-full p-2 ml-2 mt-1"
+            onClick={handleLogout}
+          />
+        </div>
+      </div>
+    </>
   );
 }
 
